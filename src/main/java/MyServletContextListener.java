@@ -11,20 +11,25 @@ public class MyServletContextListener implements ServletContextListener {
     private ServletContext context;
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        ApiMySql.createDB(); // создаем базу данных если ее нет
+        ApiMySql.insertUsers("Peter", "1234"); // вставляем данные
+        ApiMySql.insertUsers("Alisa", "4321");
+        ApiMySql.insertUsers("Otto", "2345");
+        ApiMySql.insertUsers("Eva", "5432");
 
         System.out.println("_________________BD Initialized_____________________");
-        try {
-            if (!ApiMySql.isTableExists("users")) {
-                ApiMySql.createDB(); // создаем базу данных если ее нет
-                ApiMySql.insertUsers("Peter", "1234"); // вставляем данные
-                ApiMySql.insertUsers("Alisa", "4321");
-                ApiMySql.insertUsers("Otto", "2345");
-                ApiMySql.insertUsers("Eva", "5432");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("_________________BD EROR_____________________");
-        }
+        // try {
+        // if (!ApiMySql.isTableExists("users")) {
+        // ApiMySql.createDB(); // создаем базу данных если ее нет
+        // ApiMySql.insertUsers("Peter", "1234"); // вставляем данные
+        // ApiMySql.insertUsers("Alisa", "4321");
+        // ApiMySql.insertUsers("Otto", "2345");
+        // ApiMySql.insertUsers("Eva", "5432");
+        // }
+        // } catch (SQLException e) {
+        // e.printStackTrace();
+        // System.out.println("_________________BD EROR_____________________");
+        // }
 
         context = servletContextEvent.getServletContext();
         // set attribute in context
