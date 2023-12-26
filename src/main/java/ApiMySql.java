@@ -4,7 +4,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import com.mysql.cj.jdbc.DatabaseMetaData;
 
 import scala.collection.mutable.HashMap;
 import com.mysql.jdbc.Driver;
@@ -53,11 +52,22 @@ public class ApiMySql {
     }
 
     // проверка существует ли таблица
-    public static boolean isTableExists(String tableName) throws SQLException {
-        con = DriverManager.getConnection(url, username, password);
-        DatabaseMetaData meta = (DatabaseMetaData) con.getMetaData();
-        ResultSet resultSet = meta.getTables(null, null, tableName, new String[] { "TABLE" });
-        return resultSet.next();
+    public static boolean isExistsPerson(String personName, String personPassword) throws SQLException {
+        String query = "SELECT * FROM mydb.users WHERE personName = ? and personPassword = ?";
+        try {
+            con = DriverManager.getConnection(url, username, password);
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, personName);
+            pstmt.setString(2, personPassword);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        }
+
+        return false;
     }
 
     public static void insertUsers(String personName, String personPassword) {
