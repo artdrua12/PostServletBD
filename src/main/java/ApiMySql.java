@@ -51,7 +51,7 @@ public class ApiMySql {
         }
     }
 
-    // проверка существует ли таблица
+    // проверка существует ли запись
     public static boolean isExistsPerson(String personName, String personPassword) throws SQLException {
         String query = "SELECT * FROM mydb.users WHERE personName = ? and personPassword = ?";
         try {

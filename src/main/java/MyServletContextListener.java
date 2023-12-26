@@ -8,12 +8,12 @@ public class MyServletContextListener implements ServletContextListener {
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            if (!ApiMySql.isExistsPerson("Peter", "1234")) { // если нет такой записи
+            if (!ApiMySql.isExistsPerson("Peter", ApiCrypt.createCrypt("1234"))) { // если нет такой записи
                 ApiMySql.createDB(); // создаем базу данных если ее нет
-                ApiMySql.insertUsers("Peter", "1234"); // вставляем данные
-                ApiMySql.insertUsers("Alisa", "4321");
-                ApiMySql.insertUsers("Otto", "2345");
-                ApiMySql.insertUsers("Eva", "5432");
+                ApiMySql.insertUsers("Peter", ApiCrypt.createCrypt("1234")); // вставляем данные и шифруем их
+                ApiMySql.insertUsers("Alisa", ApiCrypt.createCrypt("4321"));
+                ApiMySql.insertUsers("Otto", ApiCrypt.createCrypt("2345"));
+                ApiMySql.insertUsers("Eva", ApiCrypt.createCrypt("5432"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
